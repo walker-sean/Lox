@@ -9,6 +9,11 @@ public class OutputController {
     private final Appendable output;
     private final Appendable errorOutput;
 
+    /**
+     * Constructor
+     * @param output the standard output location
+     * @param errorOutput the error output location
+     */
     public OutputController(Appendable output, Appendable errorOutput) {
         this.output = output;
         this.errorOutput = errorOutput;

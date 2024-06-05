@@ -12,11 +12,16 @@ import java.util.List;
  * Controller for the Lox interpreter
  */
 public class AppController {
-    private final OutputController output;
+    private final OutputController outputController;
     private final ErrorController errorController;
 
-    public AppController(OutputController output, ErrorController errorController) {
-        this.output = output;
+    /**
+     * Constructor
+     * @param outputController the output controller for the app
+     * @param errorController the error controller for the app
+     */
+    public AppController(OutputController outputController, ErrorController errorController) {
+        this.outputController = outputController;
         this.errorController = errorController;
     }
 
@@ -42,7 +47,7 @@ public class AppController {
         BufferedReader bufferedReader = new BufferedReader(inputReader);
 
         while (true) {
-            output.print("> ");
+            outputController.print("> ");
             String line = bufferedReader.readLine();
             if (line == null) break;
             run(line);
@@ -61,7 +66,7 @@ public class AppController {
 
         // For now, just print the tokens.
         for (Token token : tokens) {
-            this.output.println(token);
+            this.outputController.println(token);
         }
     }
 }

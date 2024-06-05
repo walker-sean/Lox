@@ -1,15 +1,17 @@
 package com.seanjwalker.lox.controller;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 public class ErrorController {
-    private final OutputController output;
+    private final OutputController outputController;
     boolean hadError = false;
 
-    public ErrorController(OutputController output) {
-        this.output = output;
+    /**
+     * Constructor
+     * @param outputController the output controller for the app
+     */
+    public ErrorController(OutputController outputController) {
+        this.outputController = outputController;
     }
 
     /**
@@ -31,6 +33,6 @@ public class ErrorController {
      */
     private void report(int line, String where,
                         String message) throws IOException {
-        this.output.printError("[line " + String.valueOf(line) + "] Error" + where + ": " + message +"\n");
+        this.outputController.printError("[line " + line + "] Error" + where + ": " + message +"\n");
     }
 }

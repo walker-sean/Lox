@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: com.seanjwalker.lox.Lox
+Main-Class: com.seanjwalker.tool.GenerateAst
 

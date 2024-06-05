@@ -5,10 +5,17 @@ package com.seanjwalker.lox.model;
  */
 public class Token {
     private final TokenType type;
-    private final String lexeme;
+    public final String lexeme;
     private final Object literal;
     private final int line;
 
+    /**
+     * Constructor
+     * @param type the TokenType of the token
+     * @param lexeme the String representing how the token is presented in Lox code
+     * @param literal the value of the token
+     * @param line where the token is located
+     */
     public Token(TokenType type, String lexeme, Object literal, int line) {
         this.type = type;
         this.lexeme = lexeme;

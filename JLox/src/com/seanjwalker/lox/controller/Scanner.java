@@ -21,6 +21,11 @@ class Scanner {
     private final ErrorController errorController;
     private boolean inBlockComment = false;
 
+    /**
+     * Constructor
+     * @param source the Lox source code scanned
+     * @param errorController the controller to handle errors
+     */
     public Scanner(String source, ErrorController errorController) {
         this.source = source;
         this.errorController = errorController;
@@ -126,6 +131,9 @@ class Scanner {
         }
     }
 
+    /**
+     * Determines whether a token is an identifier and adds it appropriately
+     */
     private void identifier() {
         while (isAlphaNumeric(peek())) advance();
 

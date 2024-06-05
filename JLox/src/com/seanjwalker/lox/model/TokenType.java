@@ -1,13 +1,13 @@
 package com.seanjwalker.lox.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * Represents the types of tokens in the Lox language
  */
 public enum TokenType {
-
     // Single-character tokens
     LEFT_PAREN("("), RIGHT_PAREN(")"), LEFT_BRACE("{"), RIGHT_BRACE("}"),
     COMMA(","), DOT("."), MINUS("-"), PLUS("+"), SEMICOLON(";"), SLASH("/"),
@@ -33,27 +33,14 @@ public enum TokenType {
 
     public String literal;
 
-    public static Set<TokenType> keywords;
+    // Special TokenTypes that are used as keywords
+    public static final Set<TokenType> keywords;
 
     static {
         keywords = new HashSet<>();
 
-        keywords.add(AND);
-        keywords.add(CLASS);
-        keywords.add(ELSE);
-        keywords.add(FALSE);
-        keywords.add(FUN);
-        keywords.add(FOR);
-        keywords.add(IF);
-        keywords.add(NIL);
-        keywords.add(OR);
-        keywords.add(PRINT);
-        keywords.add(RETURN);
-        keywords.add(SUPER);
-        keywords.add(THIS);
-        keywords.add(TRUE);
-        keywords.add(VAR);
-        keywords.add(WHILE);
+        keywords.addAll(List.of(AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NIL, OR,
+                PRINT, RETURN, SUPER, THIS, TRUE, VAR, WHILE));
     }
 
     TokenType(String literal) {
