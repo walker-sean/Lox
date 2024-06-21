@@ -36,11 +36,16 @@ public enum TokenType {
     // Special TokenTypes that are used as keywords
     public static final Set<TokenType> keywords;
 
+    // Keywords that mark the beginning of a statement
+    public static final Set<TokenType> statementStarters;
+
     static {
         keywords = new HashSet<>();
-
         keywords.addAll(List.of(AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NIL, OR,
                 PRINT, RETURN, SUPER, THIS, TRUE, VAR, WHILE));
+
+        statementStarters = new HashSet<>();
+        statementStarters.addAll(List.of(CLASS, FUN, VAR, FOR, IF, WHILE, PRINT, RETURN));
     }
 
     TokenType(String literal) {

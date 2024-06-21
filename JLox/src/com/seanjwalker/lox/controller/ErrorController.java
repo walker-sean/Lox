@@ -1,7 +1,5 @@
 package com.seanjwalker.lox.controller;
 
-import java.io.IOException;
-
 public class ErrorController {
     private final OutputController outputController;
     boolean hadError = false;
@@ -18,9 +16,8 @@ public class ErrorController {
      * Handles an error
      * @param line the line where the error occurred
      * @param message the error message
-     * @throws IOException if there is an error writing the error message
      */
-    void error(int line, String message) throws IOException {
+    void error(int line, String message) {
         report(line, "", message);
     }
 
@@ -29,10 +26,9 @@ public class ErrorController {
      * @param line the line where the error occurred
      * @param where the location of the error (user-friendly)
      * @param message the error message
-     * @throws IOException if there is an error writing the error message
      */
-    private void report(int line, String where,
-                        String message) throws IOException {
+    void report(int line, String where,
+                String message) {
         this.outputController.printError("[line " + line + "] Error" + where + ": " + message +"\n");
     }
 }

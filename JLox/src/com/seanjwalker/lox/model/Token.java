@@ -4,10 +4,10 @@ package com.seanjwalker.lox.model;
  * Represents a token in the Lox language
  */
 public class Token {
-    private final TokenType type;
+    public final TokenType type;
     public final String lexeme;
-    private final Object literal;
-    private final int line;
+    public final Object literal;
+    public final int line;
 
     /**
      * Constructor

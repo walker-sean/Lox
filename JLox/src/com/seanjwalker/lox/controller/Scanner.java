@@ -3,7 +3,6 @@ package com.seanjwalker.lox.controller;
 import com.seanjwalker.lox.model.Token;
 import com.seanjwalker.lox.model.TokenType;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,9 +33,8 @@ class Scanner {
     /**
      * Scans all tokens in the source
      * @return the source as a list of tokens
-     * @throws IOException if there is an error writing an unexpected character message
      */
-    List<Token> scanTokens() throws IOException {
+    List<Token> scanTokens() {
         while (!isAtEnd()) {
             // We are at the beginning of the next lexeme.
             start = current;
@@ -49,9 +47,8 @@ class Scanner {
 
     /**
      * Adds a token to the list of tokens based on what is encountered
-     * @throws IOException if there is an error writing the unexpected character message
      */
-    private void scanToken() throws IOException {
+    private void scanToken() {
         // Map each literal to its TokenType
         Map<String, TokenType> literalMap = new HashMap<>();
         for (TokenType type : TokenType.values()) {
@@ -166,9 +163,8 @@ class Scanner {
 
     /**
      * Scans through a string literal and adds it to the list of tokens
-     * @throws IOException if there is an error writing an error message
      */
-    private void string() throws IOException {
+    private void string() {
         while (peek() != '"' && !isAtEnd()) {
             if (peek() == '\n') line++;
             advance();
