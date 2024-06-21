@@ -1,11 +1,11 @@
-package com.seanjwalker.lox.controller;
+package com.seanjwalker.lox.view;
 
 import java.io.IOException;
 
 /**
  * Controller for handling output
  */
-public class OutputController {
+public class OutputPrinter {
     private final Appendable output;
     private final Appendable errorOutput;
 
@@ -14,7 +14,7 @@ public class OutputController {
      * @param output the standard output location
      * @param errorOutput the error output location
      */
-    public OutputController(Appendable output, Appendable errorOutput) {
+    public OutputPrinter(Appendable output, Appendable errorOutput) {
         this.output = output;
         this.errorOutput = errorOutput;
     }

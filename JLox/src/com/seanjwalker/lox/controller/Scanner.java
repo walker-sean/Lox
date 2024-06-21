@@ -2,6 +2,7 @@ package com.seanjwalker.lox.controller;
 
 import com.seanjwalker.lox.model.Token;
 import com.seanjwalker.lox.model.TokenType;
+import com.seanjwalker.lox.view.ErrorReporter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,17 +18,17 @@ class Scanner {
     private int start = 0;
     private int current = 0;
     private int line = 1;
-    private final ErrorController errorController;
+    private final ErrorReporter errorReporter;
     private boolean inBlockComment = false;
 
     /**
      * Constructor
      * @param source the Lox source code scanned
-     * @param errorController the controller to handle errors
+     * @param errorReporter the controller to handle errors
      */
-    public Scanner(String source, ErrorController errorController) {
+    Scanner(String source, ErrorReporter errorReporter) {
         this.source = source;
-        this.errorController = errorController;
+        this.errorReporter = errorReporter;
     }
 
     /**
@@ -84,7 +85,7 @@ class Scanner {
                     while (peek() != '*' && peekNext() != '/') {
                         if (peek() == '\n') line++;
                         if (isAtEnd()) {
-                            errorController.error(line, "Unterminated block comment.");
+                            errorReporter.error(line, "Unterminated block comment.");
                             return;
                         }
                         advance();
@@ -100,7 +101,7 @@ class Scanner {
                     if (inBlockComment) {
                         inBlockComment = false;
                         if (!isAtEnd()) advance();
-                    } else errorController.error(line, "Unexpected block comment end");
+                    } else errorReporter.error(line, "Unexpected block comment end");
                 } else {
                     addToken(TokenType.STAR);
                 }
@@ -123,7 +124,7 @@ class Scanner {
                 if (literalMap.containsKey(String.valueOf(c))) addToken(literalMap.get(String.valueOf(c)));
                 else if (isDigit(c)) number();
                 else if (isAlpha(c)) identifier();
-                else errorController.error(line, "Unexpected character.");
+                else errorReporter.error(line, "Unexpected character.");
                 break;
         }
     }
@@ -171,7 +172,7 @@ class Scanner {
         }
 
         if (isAtEnd()) {
-            errorController.error(line, "Unterminated string.");
+            errorReporter.error(line, "Unterminated string.");
             return;
         }
 

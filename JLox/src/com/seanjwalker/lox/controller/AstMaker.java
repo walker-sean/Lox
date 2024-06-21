@@ -15,8 +15,8 @@ I'm surprised you found it!
 
 please hire me
  */
-public class AstPrinter implements Expression.Visitor<String> {
-    String print(Expression expression) {
+public class AstMaker implements Expression.Visitor<String> {
+    public String print(Expression expression) {
         return expression.accept(this);
     }
 

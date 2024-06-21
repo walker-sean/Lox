@@ -3,6 +3,7 @@ package com.seanjwalker.lox.controller;
 import com.seanjwalker.lox.model.Expression;
 import com.seanjwalker.lox.model.Token;
 import com.seanjwalker.lox.model.TokenType;
+import com.seanjwalker.lox.view.ErrorReporter;
 
 import java.util.List;
 
@@ -18,32 +19,32 @@ class Parser {
         /**
          * Constructor.
          * Reports the error as it is constructed
-         * @param errorController the Error Controller used to report the error
+         * @param errorReporter the Error Controller used to report the error
          * @param token the token where the error occurs
          * @param message the message to serve the user regarding the message
          */
-        private ParseError(ErrorController errorController, Token token, String message) {
+        private ParseError(ErrorReporter errorReporter, Token token, String message) {
             super(message);
 
             if (token.type == TokenType.EOF) {
-                errorController.report(token.line, " at end", message);
+                errorReporter.report(token.line, " at end", message);
             } else {
-                errorController.report(token.line, " at '" + token.lexeme + "'", message);
+                errorReporter.report(token.line, " at '" + token.lexeme + "'", message);
             }
         }
     }
 
     private final List<Token> tokens;
     private int current = 0;
-    private final ErrorController errorController;
+    private final ErrorReporter errorReporter;
 
     /**
      * Constructor
      * @param tokens the tokens consumed by the parser
      */
-    Parser(List<Token> tokens, ErrorController errorController) {
+    Parser(List<Token> tokens, ErrorReporter errorReporter) {
         this.tokens = tokens;
-        this.errorController = errorController;
+        this.errorReporter = errorReporter;
     }
 
     /**
@@ -163,7 +164,7 @@ class Parser {
             return new Expression.Grouping(expression);
         }
 
-        throw new ParseError(this.errorController, peek(), "Expect expression.");
+        throw new ParseError(this.errorReporter, peek(), "Expect expression.");
     }
 
     /**
@@ -239,7 +240,7 @@ class Parser {
     private Token consume(TokenType type, String message) {
         if (check(type)) return advance();
 
-        throw new ParseError(errorController, peek(), message);
+        throw new ParseError(errorReporter, peek(), message);
     }
 
     /**

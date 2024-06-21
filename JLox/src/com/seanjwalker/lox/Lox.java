@@ -1,8 +1,8 @@
 package com.seanjwalker.lox;
 
 import com.seanjwalker.lox.controller.AppController;
-import com.seanjwalker.lox.controller.ErrorController;
-import com.seanjwalker.lox.controller.OutputController;
+import com.seanjwalker.lox.view.ErrorReporter;
+import com.seanjwalker.lox.view.OutputPrinter;
 
 /**
  * Driver class for the Lox interpreter
@@ -13,9 +13,9 @@ public class Lox {
      * @param args a script to run or nothing to run REPL
      */
     public static void main(String[] args) {
-        OutputController outputController = new OutputController(System.out, System.err);
-        ErrorController errorController = new ErrorController(outputController);
-        AppController appController = new AppController(outputController, errorController);
+        OutputPrinter outputPrinter = new OutputPrinter(System.out, System.err);
+        ErrorReporter errorReporter = new ErrorReporter(outputPrinter);
+        AppController appController = new AppController(outputPrinter, errorReporter);
 
         if (args.length > 1) {
             System.out.println("Usage: jlox [script]");

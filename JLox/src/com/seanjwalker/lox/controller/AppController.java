@@ -2,6 +2,8 @@ package com.seanjwalker.lox.controller;
 
 import com.seanjwalker.lox.model.Expression;
 import com.seanjwalker.lox.model.Token;
+import com.seanjwalker.lox.view.ErrorReporter;
+import com.seanjwalker.lox.view.OutputPrinter;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -13,17 +15,17 @@ import java.util.List;
  * Controller for the Lox interpreter
  */
 public class AppController {
-    private final OutputController outputController;
-    private final ErrorController errorController;
+    private final OutputPrinter outputPrinter;
+    private final ErrorReporter errorReporter;
 
     /**
      * Constructor
-     * @param outputController the output controller for the app
-     * @param errorController the error controller for the app
+     * @param outputPrinter the output controller for the app
+     * @param errorReporter the error controller for the app
      */
-    public AppController(OutputController outputController, ErrorController errorController) {
-        this.outputController = outputController;
-        this.errorController = errorController;
+    public AppController(OutputPrinter outputPrinter, ErrorReporter errorReporter) {
+        this.outputPrinter = outputPrinter;
+        this.errorReporter = errorReporter;
     }
 
     /**
@@ -35,13 +37,13 @@ public class AppController {
         try {
             bytes = Files.readAllBytes(Paths.get(path));
         } catch (IOException e) {
-            this.outputController.printError(e);
+            this.outputPrinter.printError(e);
         }
         assert bytes != null;
         run(new String(bytes, Charset.defaultCharset()));
 
         // Indicate an error in the exit code.
-        if (errorController.hadError) System.exit(65);
+        if (errorReporter.hadError) System.exit(65);
     }
 
     /**
@@ -52,16 +54,16 @@ public class AppController {
         BufferedReader bufferedReader = new BufferedReader(inputReader);
 
         while (true) {
-            outputController.print("> ");
+            outputPrinter.print("> ");
             String line = null;
             try {
                 line = bufferedReader.readLine();
             } catch (IOException e) {
-                outputController.printError(e.getStackTrace());
+                outputPrinter.printError(e.getStackTrace());
             }
             if (line == null) break;
             run(line);
-            errorController.hadError = false;
+            errorReporter.hadError = false;
         }
     }
 
@@ -70,13 +72,13 @@ public class AppController {
      * @param source the source code
      */
     private void run(String source)  {
-        Scanner scanner = new Scanner(source, this.errorController);
+        Scanner scanner = new Scanner(source, this.errorReporter);
         List<Token> tokens = scanner.scanTokens();
-        Parser parser = new Parser(tokens, this.errorController);
+        Parser parser = new Parser(tokens, this.errorReporter);
         Expression expression = parser.parse();
 
-        if (errorController.hadError) return;
+        if (errorReporter.hadError) return;
 
-        this.outputController.println(new AstPrinter().print(expression));
+        this.outputPrinter.println(new AstMaker().print(expression));
     }
 }
