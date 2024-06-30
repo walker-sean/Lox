@@ -62,11 +62,22 @@ class Parser {
 
     /**
      * Parses an expression.
-     * The expression rule is simply an expansion of the equality rule
      * @return the syntax tree for the expression
      */
     private Expression expression() {
-        return equality();
+        return block();
+    }
+
+    private Expression block() {
+        Expression expression = equality();
+
+        while (match(TokenType.COMMA)) {
+            Token operator = previous();
+            Expression right = equality();
+            expression = new Expression.Binary(expression, operator, right);
+        }
+
+        return expression;
     }
 
     /**
@@ -163,6 +174,10 @@ class Parser {
             consume(TokenType.RIGHT_PAREN, "Expect ')' after expression.");
             return new Expression.Grouping(expression);
         }
+
+        if (check(TokenType.EOF)) return null;
+
+        System.out.println(current);
 
         throw new ParseError(this.errorReporter, peek(), "Expect expression.");
     }
