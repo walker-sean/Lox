@@ -50,14 +50,6 @@ class Scanner {
      * Adds a token to the list of tokens based on what is encountered
      */
     private void scanToken() {
-        // Map each literal to its TokenType
-        Map<String, TokenType> literalMap = new HashMap<>();
-        for (TokenType type : TokenType.values()) {
-            if (type.literal != null) {
-                literalMap.put(type.literal, type);
-            }
-        }
-
         char c = advance();
         switch (c) {
             case '!':
@@ -121,7 +113,8 @@ class Scanner {
 
             default:
                 // if the character is an accepted single-character token
-                if (literalMap.containsKey(String.valueOf(c))) addToken(literalMap.get(String.valueOf(c)));
+                String string = String.valueOf(c);
+                if (TokenType.of(string) != null) addToken(TokenType.of(string));
                 else if (isDigit(c)) number();
                 else if (isAlpha(c)) identifier();
                 else errorReporter.error(line, "Unexpected character.");

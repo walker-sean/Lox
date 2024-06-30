@@ -1,8 +1,6 @@
 package com.seanjwalker.lox.model;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Represents the types of tokens in the Lox language
@@ -39,6 +37,8 @@ public enum TokenType {
     // Keywords that mark the beginning of a statement
     public static final Set<TokenType> statementStarters;
 
+    public static final Map<String, TokenType> literalMap;
+
     static {
         keywords = new HashSet<>();
         keywords.addAll(List.of(AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NIL, OR,
@@ -46,6 +46,11 @@ public enum TokenType {
 
         statementStarters = new HashSet<>();
         statementStarters.addAll(List.of(CLASS, FUN, VAR, FOR, IF, WHILE, PRINT, RETURN));
+
+        literalMap = new HashMap<>();
+        for (TokenType type : values()) {
+            literalMap.put(type.literal, type);
+        }
     }
 
     TokenType(String literal) {
@@ -53,4 +58,8 @@ public enum TokenType {
     }
 
     TokenType() {}
+
+    public static TokenType of(String literal) {
+        return literalMap.get(literal);
+    }
 }
